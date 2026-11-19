@@ -1,0 +1,743 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>The Portal, Open to Close · Christopher Hager</title>
+<style>
+@font-face{font-family:'Space Grotesk';src:url('./fonts/SpaceGrotesk-a57c9413.woff2') format('woff2');font-weight:300 700;font-style:normal;font-display:swap;}
+@font-face{font-family:'Space Grotesk';src:url('./fonts/SpaceGrotesk-e911c2d9.woff2') format('woff2');font-weight:300 700;font-style:normal;font-display:swap;unicode-range:U+0100-024F,U+0259,U+1E00-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;}
+@font-face{font-family:'DM Sans';src:url('./fonts/DMSans-f6298972.woff2') format('woff2');font-weight:100 1000;font-style:normal;font-display:swap;}
+@font-face{font-family:'DM Sans';src:url('./fonts/DMSans-151a53ae.woff2') format('woff2');font-weight:100 1000;font-style:normal;font-display:swap;unicode-range:U+0100-024F,U+0259,U+1E00-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;}
+@font-face{font-family:'Instrument Serif';src:url('./fonts/InstrumentSerif-99cc6edf.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap;}
+@font-face{font-family:'Instrument Serif';src:url('./fonts/InstrumentSerif-fa1a1a83.woff2') format('woff2');font-weight:400;font-style:italic;font-display:swap;}
+
+:root{
+  --crown:#1B0C20; --paper:#1E1024; --panel:#26132D; --panel2:#2E1736;
+  --ink:#EDE6DA; --soft:rgba(237,230,218,.72); --faint:rgba(237,230,218,.14);
+  --gold:#D9AE5E; --gold-dim:rgba(217,174,94,.35); --wine:#E7A2C1; --teal:#8FC1C0;
+  --display:'Instrument Serif',Georgia,serif;
+  --head:'Space Grotesk',"Helvetica Neue",Arial,sans-serif;
+  --body:'DM Sans',-apple-system,"Segoe UI",Roboto,sans-serif;
+  --size:24px;
+}
+*{box-sizing:border-box}
+html{font-size:var(--size);scroll-behavior:smooth;scroll-padding-top:3.4rem}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:var(--gold)}
+button{font:inherit;color:inherit}
+
+/* ---------- hero ---------- */
+header{position:relative;overflow:hidden;text-align:center;padding:2.4rem 1.2rem 2rem;
+  background:radial-gradient(ellipse at 50% 120%,#7C2D50 0%,#3B1A4C 38%,#1B0C20 78%)}
+.portal{width:110px;height:110px;margin:0 auto 1rem;position:relative}
+.portal span{position:absolute;inset:0;border-radius:50%;border:1px solid var(--gold);opacity:0;animation:ring 6s ease-out infinite}
+.portal span:nth-child(2){animation-delay:2s}.portal span:nth-child(3){animation-delay:4s}
+.portal img{position:absolute;left:50%;top:50%;width:40px;transform:translate(-50%,-50%)}
+@keyframes ring{0%{transform:scale(.25);opacity:.9}100%{transform:scale(1);opacity:0}}
+.eyebrow{font-family:var(--head);font-size:.46rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);margin:0 0 .5rem}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(2.2rem,7vw,3.2rem);line-height:1.02;margin:0}
+h1 em{color:var(--gold)}
+header .sub{max-width:28em;margin:.8rem auto 0;color:var(--soft);font-size:.7rem}
+
+/* ---------- control bar ---------- */
+.bar{position:sticky;top:0;z-index:10;background:rgba(30,16,36,.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--faint);
+  display:flex;flex-wrap:wrap;gap:.4rem .8rem;align-items:center;justify-content:center;padding:.45rem .8rem;
+  font-family:var(--head);font-size:.44rem;letter-spacing:.14em;text-transform:uppercase}
+.seg{display:inline-flex;border:1px solid var(--gold-dim);border-radius:999px;overflow:hidden}
+.seg button{border:0;background:transparent;padding:.4em 1.1em;cursor:pointer;letter-spacing:.14em;text-transform:uppercase;color:var(--soft)}
+.seg button[aria-pressed="true"]{background:var(--gold);color:var(--crown);font-weight:600}
+.tools{display:inline-flex;gap:.3rem}
+.tools button{cursor:pointer;border:1px solid rgba(237,230,218,.3);background:transparent;border-radius:999px;padding:.3em .8em;letter-spacing:.12em;text-transform:uppercase}
+.tools button:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ---------- stage map ---------- */
+.map{max-width:36rem;margin:1.2rem auto 0;padding:0 1.2rem}
+.map ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:.35rem;justify-content:center}
+.map li a{display:inline-flex;align-items:center;gap:.4em;text-decoration:none;font-family:var(--head);font-size:.46rem;letter-spacing:.08em;
+  padding:.3em .75em;border-radius:999px;border:1px solid var(--faint);color:var(--soft)}
+.map li a b{color:var(--gold);font-weight:600}
+.map li.done a{border-color:var(--gold-dim);color:var(--gold);background:rgba(217,174,94,.08)}
+.map li.done a b::after{content:" \2713"}
+.map .phase{width:100%;text-align:center;font-family:var(--head);font-size:.4rem;letter-spacing:.3em;text-transform:uppercase;color:var(--wine);margin:.5rem 0 .1rem}
+
+main{max-width:36rem;margin:0 auto;padding:.4rem 1.2rem 3rem}
+
+/* ---------- phase divider ---------- */
+.phase-head{margin:2.6rem 0 0;text-align:center}
+.phase-head p{font-family:var(--head);font-size:.46rem;letter-spacing:.34em;text-transform:uppercase;color:var(--wine);margin:0}
+.phase-head h2{font-family:var(--display);font-weight:400;font-size:2rem;margin:.1rem 0 0}
+
+/* ---------- stages ---------- */
+.stage{margin:1.2rem 0 0;border:1px solid var(--faint);border-radius:18px;background:var(--panel);overflow:hidden}
+.stage-head{display:flex;align-items:center;gap:.7rem;padding:.75rem 1rem;cursor:pointer;user-select:none}
+.num{flex:0 0 1.7rem;height:1.7rem;border-radius:50%;border:1px solid var(--gold-dim);display:flex;align-items:center;justify-content:center;
+  font-family:var(--head);font-size:.55rem;color:var(--gold)}
+.stage-head img{width:20px;opacity:.9}
+.stage-title{flex:1;min-width:0}
+.stage-title h3{margin:0;font-family:var(--display);font-weight:400;font-size:1.3rem;line-height:1.15}
+.stage-title .meta{display:block;font-family:var(--head);font-size:.42rem;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);margin-top:.15rem}
+.done-btn{cursor:pointer;border:1px solid var(--gold-dim);background:transparent;border-radius:999px;padding:.3em .8em;
+  font-family:var(--head);font-size:.42rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);white-space:nowrap}
+.done-btn:hover{background:rgba(217,174,94,.12)}
+.stage-body{padding:.2rem 1.2rem 1.1rem;border-top:1px solid var(--faint)}
+.stage.collapsed .stage-body{display:none}
+.stage.done{opacity:.62}
+.stage.done .num{background:var(--gold);color:var(--crown)}
+.stage.done .num span{display:none}
+.stage.done .num::after{content:"\2713"}
+.stage.done .done-btn{background:var(--gold);color:var(--crown)}
+
+.stage.close-tone{background:linear-gradient(180deg,#2D1838 0%,var(--panel) 60%)}
+.stage.gold-tone{border-color:var(--gold-dim);background:radial-gradient(ellipse at 50% 0%,rgba(217,174,94,.10) 0%,rgba(217,174,94,0) 55%),#24122C}
+
+/* mode filter */
+body.mode-group [data-for="one"],body.mode-one [data-for="group"]{display:none !important}
+
+/* ---------- script text ---------- */
+p{margin:0 0 .6rem}
+.why{font-size:.72rem;color:var(--soft);margin:.7rem 0 .8rem}
+.say{color:var(--ink);font-size:1rem;margin:.55rem 0}
+.breath{color:var(--gold);font-family:var(--display);font-size:1.22rem;line-height:1.3;margin:.7rem 0 .8rem}
+.cue{font-family:var(--head);font-size:.44rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);text-align:center;margin:1rem 0}
+.beat{display:flex;align-items:center;gap:.7rem;margin:.8rem 0;color:var(--gold)}
+.beat::before,.beat::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(217,174,94,0),rgba(217,174,94,.7),rgba(217,174,94,0))}
+.beat span{font-family:var(--head);font-size:.38rem;letter-spacing:.34em;text-transform:uppercase;white-space:nowrap}
+.beat span::before{content:"\25C6\00a0\00a0"}.beat span::after{content:"\00a0\00a0\25C6"}
+.point{display:block;font-family:var(--head);font-size:.42rem;letter-spacing:.24em;text-transform:uppercase;color:var(--teal);margin:1rem 0 .15rem}
+.src{display:block;font-family:var(--head);font-size:.38rem;letter-spacing:.16em;text-transform:uppercase;color:var(--wine);opacity:.85;margin-top:.8rem}
+
+/* SAGE's suggestions: dashed, labelled, easy to see and easy to cut */
+.sug{border:1.5px dashed rgba(231,162,193,.45);border-radius:10px;padding:.6rem .85rem .25rem;margin:.9rem 0;position:relative}
+.sug::before{content:"suggested";position:absolute;top:-.62em;right:.8rem;background:var(--panel);padding:0 .45em;
+  font-family:var(--head);font-size:.36rem;letter-spacing:.2em;text-transform:uppercase;color:var(--wine)}
+.gold-tone .sug::before{background:#24122C}
+.close-tone .sug::before{background:#2B1636}
+
+/* checklist */
+ul.check{list-style:none;margin:.4rem 0;padding:0}
+ul.check li{display:flex;gap:.7rem;align-items:flex-start;padding:.55rem 0;border-top:1px solid var(--faint);font-size:.9rem}
+ul.check li:first-child{border-top:none}
+ul.check input{appearance:none;-webkit-appearance:none;flex:0 0 1.05rem;height:1.05rem;margin-top:.15rem;border:1.5px solid var(--gold);border-radius:4px;cursor:pointer;position:relative}
+ul.check input:checked{background:var(--gold)}
+ul.check input:checked::after{content:"\2713";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--crown);font-size:.7rem;font-weight:700}
+ul.check label{cursor:pointer}
+ul.check b{font-family:var(--head);font-weight:600}
+ul.check .s{display:block;font-size:.72rem;color:var(--soft)}
+ul.check li.sugli{border-left:2px dashed rgba(231,162,193,.5);padding-left:.6rem}
+ul.check li.sugli .tag{font-family:var(--head);font-size:.36rem;letter-spacing:.2em;text-transform:uppercase;color:var(--wine);margin-left:.4em}
+
+/* expandable acknowledgements */
+details.ack{border-top:1px solid var(--faint)}
+details.ack:first-of-type{border-top:none}
+details.ack summary{list-style:none;cursor:pointer;padding:.6rem 0;display:flex;align-items:center;gap:.6rem;font-family:var(--head);font-weight:600;font-size:.8rem}
+details.ack summary::-webkit-details-marker{display:none}
+details.ack summary::before{content:"+";flex:0 0 1.2rem;height:1.2rem;border-radius:50%;border:1px solid var(--gold-dim);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:.7rem}
+details.ack[open] summary::before{content:"\2013"}
+details.ack summary .tag{font-family:var(--head);font-size:.36rem;letter-spacing:.2em;text-transform:uppercase;color:var(--wine);font-weight:400}
+details.ack > div{padding:0 0 .7rem 1.8rem}
+.ack-all{display:flex;gap:.4rem;justify-content:flex-end;margin:.4rem 0 .2rem}
+.ack-all button{cursor:pointer;border:1px solid var(--faint);background:transparent;border-radius:999px;padding:.25em .8em;font-family:var(--head);font-size:.38rem;letter-spacing:.16em;text-transform:uppercase;color:var(--soft)}
+
+/* copy-to-chat chips */
+.chat{display:flex;gap:.6rem;align-items:flex-start;margin:.55rem 0;padding:.6rem .7rem;border-radius:12px;background:rgba(0,0,0,.22);border:1px solid var(--faint)}
+.chat code{flex:1;font-family:var(--body);font-size:.74rem;color:var(--ink);white-space:pre-wrap;word-break:break-word}
+.chat button{flex:0 0 auto;cursor:pointer;border:1px solid var(--gold-dim);background:transparent;border-radius:999px;padding:.3em .8em;
+  font-family:var(--head);font-size:.38rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+.chat button.ok{background:var(--gold);color:var(--crown)}
+
+/* ---------- wizard intro (as it stands, v1.3) ---------- */
+.wiz-tools{display:flex;justify-content:flex-end;gap:.4rem;margin:.6rem 0 0}
+.wiz-tools button{cursor:pointer;border:1px solid rgba(237,230,218,.3);background:transparent;border-radius:999px;padding:.25em .8em;font-family:var(--head);font-size:.38rem;letter-spacing:.14em;text-transform:uppercase}
+.wiz-tools button[aria-pressed="true"]{background:var(--gold);color:var(--crown);border-color:var(--gold)}
+.move{margin:1.5rem 0 0}
+.move-head{display:flex;align-items:center;gap:.55rem;margin-bottom:.6rem}
+.move-head img{width:20px;opacity:.9}
+.move-head span{font-family:var(--head);font-size:.4rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
+.move-head::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(217,174,94,.5),rgba(217,174,94,0))}
+.line{color:var(--ink)}
+.punch{color:var(--wine);font-weight:700;font-size:1.04rem;line-height:1.38;padding-left:.85rem;border-left:4px solid var(--wine);margin:.6rem 0 .85rem}
+.cut{border:1.5px dashed rgba(237,230,218,.28);border-radius:10px;padding:.55rem .85rem .2rem;margin:.6rem 0 .9rem;position:relative}
+.cut::before{content:"\2702  optional";position:absolute;top:-.62em;right:.8rem;background:var(--panel);padding:0 .45em;
+  font-family:var(--head);font-size:.36rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(237,230,218,.6)}
+body.trim .cut{display:none}
+.turn{margin:1.8rem -.6rem 0;padding:1.3rem 1.2rem 1rem;border-radius:16px;border:1px solid rgba(217,174,94,.35);
+  background:radial-gradient(ellipse at 50% 0%,#55276E 0%,#3B1A4C 50%,#2A1130 100%)}
+.handoff{text-align:center;margin-top:1.6rem}
+
+/* ---------- five principles ---------- */
+.principles{list-style:none;margin:.6rem 0 0;padding:0}
+.principles li{display:flex;gap:1rem;align-items:center;padding:.8rem 0;border-top:1px solid rgba(217,174,94,.22)}
+.principles li:first-child{border-top:none}
+.glyph{flex:0 0 2.2rem;height:2.2rem;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1px solid rgba(217,174,94,.6);
+  background:radial-gradient(circle at 50% 35%,rgba(217,174,94,.22) 0%,rgba(217,174,94,.04) 70%);box-shadow:0 0 14px rgba(217,174,94,.18)}
+.glyph img{width:58%;height:58%;object-fit:contain}
+.principles strong{display:block;font-family:var(--display);font-weight:400;font-size:1.28rem;line-height:1.15;color:var(--gold)}
+.principles .desc{display:block;font-size:.88rem;line-height:1.45;margin-top:.15rem}
+
+/* ---------- prayers ---------- */
+.prayer{text-align:center;padding:.6rem 0 .2rem}
+.prayer p{font-family:var(--display);font-size:1.25rem;line-height:1.45;margin:0 0 .9rem}
+.prayer .amen{font-family:var(--head);font-size:.55rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-top:1rem}
+.prayer .credit{font-family:var(--body);font-size:.66rem;color:var(--soft);line-height:1.5;margin-top:.8rem}
+.swap{color:var(--teal);border-bottom:1px dashed rgba(143,193,192,.6)}
+
+footer{text-align:center;padding:2rem 1rem 3rem;color:var(--soft);font-size:.6rem}
+footer img{width:150px;opacity:.8;display:block;margin:0 auto .8rem}
+
+@media (max-width:700px){
+  :root{--size:20px}
+  .turn{margin-left:0;margin-right:0}
+  .stage-head img{display:none}
+}
+@media (prefers-reduced-motion:reduce){.portal span{animation:none;opacity:.5}}
+@media print{.bar,.done-btn,.chat button,.wiz-tools,.ack-all{display:none}.stage.collapsed .stage-body{display:block}details.ack > div{display:block}}
+</style>
+</head>
+<body class="mode-group">
+
+<header>
+  <div class="portal"><span></span><span></span><span></span><img src="./assets/mark-light.png" alt=""></div>
+  <p class="eyebrow">The ceremony of being a portal</p>
+  <h1>The Portal,<br><em>Open</em> to <em>Close</em></h1>
+  <p class="sub">The walkthrough, start to finish. Pick Group or One-on-one up top and only that call's steps show. Tap Done as you go and each step folds away.</p>
+</header>
+
+<div class="bar">
+  <span class="seg" role="group" aria-label="Which call">
+    <button type="button" data-mode="group" aria-pressed="true">Group</button>
+    <button type="button" data-mode="one" aria-pressed="false">One-on-one</button>
+  </span>
+  <span class="tools">
+    <button type="button" id="smaller" aria-label="Smaller text">A&minus;</button>
+    <button type="button" id="bigger" aria-label="Bigger text">A+</button>
+    <button type="button" id="reset" title="Unfold every step and clear the ticks">New call</button>
+  </span>
+</div>
+
+<nav class="map" aria-label="Steps"><ol id="map"></ol></nav>
+
+<main>
+
+<!-- =================================================================== -->
+<div class="phase-head" id="opening"><p>Part one</p><h2>Opening the portal</h2></div>
+
+<!-- 1 · ARRIVALS -->
+<section class="stage" id="arrivals" data-title="Arrivals" data-title-one="Welcome" data-phase="open">
+  <div class="stage-head"><span class="num"><span></span></span><img src="./assets/ibis-light.png" alt="">
+    <div class="stage-title"><h3 data-for="group">Acknowledge arrivals</h3><h3 data-for="one">Welcome them in</h3><span class="meta" data-for="group">While people climb in · 3 to 5 min</span><span class="meta" data-for="one">The first minute or two</span></div>
+    <button class="done-btn" type="button">Done</button></div>
+  <div class="stage-body">
+    <div data-for="group">
+      <p class="why">Banter while the room fills. The humor goes in first. These lines are yours, from the August, September and October calls.</p>
+      <p class="say">"Alright, people are climbing in. I love it."</p>
+      <p class="say">"Hello everyone, trickling in slowly but surely. This is one of my favorite times of the month. Twice a month we all get to jump into the collective."</p>
+      <p class="say">"I'll give everybody a few more minutes to trickle in. I do appreciate those jumping in on time. I always honor that."</p>
+      <p class="say">"There's a couple of new faces, so I'll do a brief intro."</p>
+      <p class="cue">New faces in the room → the Wizard Intro · All regulars → skip it</p>
+      <p class="say">"I feel like everybody in here has sat with me before, so we can release all of the shenanigans and backstory. You guys know me. You know my crazy."</p>
+    </div>
+    <div data-for="one">
+      <p class="why">One person, so the whole welcome is for them. Land the tech before you land the heart, so nothing interrupts it later.</p>
+      <p class="say">"Hey, welcome. How are you arriving today?"</p>
+      <div class="sug">
+        <p class="say">"Before we drop in: can you hear me clearly? And I'll be recording, so you'll have this afterward. Is that alright with you?"</p>
+        <p class="say">"We've got the full hour together, and I'll leave a few minutes at the end to close."</p>
+      </div>
+      <p class="cue">First session (Opening the Portal) → a short "who I am" · Returning → straight to the container</p>
+      <p class="say" data-for="one">"For the first session I'll just say a little about who I am, so you know whose hands you're in."</p>
+    </div>
+  </div>
+</section>
+
+<!-- 2 · THE WIZARD INTRO (group) -->
+<section class="stage" id="wizard" data-title="Wizard Intro" data-phase="open" data-for="group">
+  <div class="stage-head"><span class="num"><span></span></span><img src="./assets/horus-light.png" alt="">
+    <div class="stage-title"><h3>The Wizard Intro</h3><span class="meta">About 3 min · 2½ with the cuts out · v1.3, as it stands</span></div>
+    <button class="done-btn" type="button">Done</button></div>
+  <div class="stage-body">
+    <div class="wiz-tools"><button type="button" id="trim" aria-pressed="false">Hide cuts</button></div>
+
+    <div class="move"><div class="move-head"><img src="./assets/ankh-light.png" alt=""><span>The Hello</span></div>
+      <p class="line">Alright, hi. For those who don't know me, my name is Christopher Hager.</p>
+      <p class="line">I live in Costa Rica with my wife, Pixie, and our two boys.</p>
+      <p class="line">I'm a channel. Which is a polite way of saying I hear voices,</p>
+      <p class="punch">and instead of getting that looked at, I made it my job.</p></div>
+
+    <div class="move"><div class="move-head"><img src="./assets/ibis-light.png" alt=""><span>The Rerun</span></div>
+      <p class="line">For those of you who have sat with me before, think of this as the director's cut.</p>
+      <p class="punch">Same plot, more swearing.</p>
+      <div class="cut">
+        <p class="punch">Feel free to mouth along.</p>
+        <p class="line">Every wizard has an origin story.</p>
+        <p class="punch">Mine is not "found an ancient book in the attic."</p>
+      </div></div>
+
+    <div class="move"><div class="move-head"><img src="./assets/arm-light.png" alt=""><span>The Pitch</span></div>
+      <p class="line">For fifteen years I was in corporate sales, and I was very good at it. Seven figures. The house. The title. I could sell anybody anything.</p>
+      <p class="punch">Turns out my best product was a version of me that didn't exist, and my wife was my biggest customer.</p>
+      <div class="beat"><span>beat</span></div>
+      <p class="breath">I was unfaithful. I was lying.</p>
+      <p class="line">And my life looked incredible from the outside,</p>
+      <p class="punch">which is a fantastic place to stand when you're avoiding the inside.</p></div>
+
+    <div class="move"><div class="move-head"><img src="./assets/water-light.png" alt=""><span>The Telling</span></div>
+      <p class="breath">December 2020, I told Pixie everything. Not to be forgiven. To be free.</p>
+      <div class="beat"><span>beat</span></div>
+      <p class="punch">Zero stars as a date night. Five stars as a life.</p></div>
+
+    <div class="move"><div class="move-head"><img src="./assets/horus-light.png" alt=""><span>The Pop</span></div>
+      <p class="line">Then December 10th, 2022. Minding my own business.</p>
+      <p class="line">The crown of my head goes <em>pop</em>, like a champagne cork, and a group of very polite voices introduce themselves as my guides. And they say,</p>
+      <p class="breath">"You can hear us. We've been waiting."</p>
+      <div class="beat"><span>beat</span></div>
+      <p class="punch">Waiting! My whole life! Not one text!</p></div>
+
+    <div class="move"><div class="move-head"><img src="./assets/crescent-light.png" alt=""><span>The Open Gate</span></div>
+      <p class="line">Now, a wise man receives a gift like that with humility.</p>
+      <p class="punch">I received it like a golden retriever who found the gate open.</p>
+      <p class="line">I loved it up there. Third eye wide open, reading everybody's mind, including my wife's.</p>
+      <div class="cut"><p class="punch">Gentlemen: not the superpower you think it is.</p></div></div>
+
+    <div class="move"><div class="move-head"><img src="./assets/scarab-light.png" alt=""><span>The Fall</span></div>
+      <p class="line">And I had no roots.</p>
+      <p class="punch">I was a tree with a gorgeous canopy and the root system of a potted fern.</p>
+      <p class="line">So in April 2023, the tree of Christopher Hager went down. I overdosed. Injectable ketamine.</p>
+      <p class="line">For those taking notes, that's a horse tranquilizer.</p>
+      <p class="punch">I didn't just get high. I got <em>equine</em>.</p></div>
+
+    <div class="move"><div class="move-head"><img src="./assets/sun-light.png" alt=""><span>The Meeting</span></div>
+      <p class="breath">And I met God.</p>
+      <div class="beat"><span>beat</span></div>
+      <p class="punch">Who was, for the record, way less mad at me than my wife was.</p>
+      <p class="punch">Turns out watching your husband turn purple, choke, and go into convulsions isn't necessarily something that makes you prime husband and father material.</p></div>
+
+    <div class="move"><div class="move-head"><img src="./assets/braid-light.png" alt=""><span>The Return</span></div>
+      <p class="breath">My boys came to me as their older selves and asked me to come back. So I did.</p>
+      <p class="line">Days later I checked myself into rehab, and two weeks in I'm sitting in group while they teach us: get in your body, get outside, breathe, feet on the earth.</p>
+      <p class="line">And I'm thinking... <em>I teach this.</em></p>
+      <div class="beat"><span>beat</span></div>
+      <p class="punch">I had the whole toolkit. I just kept it in the garage, like a Peloton after a failed New Year's resolution.</p></div>
+
+    <div class="move"><div class="move-head"><img src="./assets/ankh-light.png" alt=""><span>The Roots</span></div>
+      <p class="line">So now I'm up at 5:30, praying barefoot in the backyard, facing east. Ass in the grass, feet in the dirt.</p>
+      <p class="line">Every morning we do a seahorse mating dance for each other in the bathroom mirror while standing on one foot.</p>
+      <p class="punch">We call it the flamingo stance toothbrush dance. Look it up.</p>
+      <p class="line">And I drink tea.</p>
+      <p class="punch">Like a wizard.</p></div>
+
+    <div class="move turn"><div class="move-head"><img src="./assets/horus-light.png" alt=""><span>The Turn</span></div>
+      <p class="cue">Drop the voice</p>
+      <p class="breath">Here's why I tell you this every single time.</p>
+      <p class="punch">Not because it's a great bit, although it is a great bit.</p>
+      <p class="breath">I tell it because today, somebody here is going to say something they have never said out loud.</p>
+      <p class="breath">And before you do, I want you to know the guy holding this space has already said worse. To his wife. And lived.</p>
+      <div class="beat"><span>breathe</span></div>
+      <p class="breath">There's nothing you can bring into this circle that makes you less welcome.</p>
+      <p class="punch">The guides have seen my browser history. You're fine.</p></div>
+
+    <div class="handoff"><p class="line">So let's set this up right. Let me walk us through our agreements.</p></div>
+  </div>
+</section>
+
+<!-- 3 · PRINCIPLES (group) / THE CONTAINER (one) -->
+<section class="stage gold-tone" id="principles" data-title="Principles" data-title-one="The container" data-phase="open">
+  <div class="stage-head"><span class="num"><span></span></span><img src="./assets/sun-light.png" alt="">
+    <div class="stage-title"><h3 data-for="group">The Five Core Principles</h3><h3 data-for="one">The container</h3><span class="meta" data-for="group">The Sacred Circle · a safe space of non-judgment</span><span class="meta" data-for="one">Safety first, then depth</span></div>
+    <button class="done-btn" type="button">Done</button></div>
+  <div class="stage-body">
+    <ol class="principles" data-for="group">
+      <li><span class="glyph"><img src="./assets/ibis-light.png" alt=""></span><span><strong>Speak from the Heart</strong><span class="desc">Slow down, drop in, let the share emerge rather than be constructed.</span></span></li>
+      <li><span class="glyph"><img src="./assets/horus-light.png" alt=""></span><span><strong>Listen from the Heart</strong><span class="desc">Not to respond/judge/prepare, but to witness; presence as medicine.</span></span></li>
+      <li><span class="glyph"><img src="./assets/braid-light.png" alt=""></span><span><strong>Confidentiality</strong><span class="desc">What's shared in the circle stays in the circle; no private check-ins outside without explicit consent.</span></span></li>
+      <li><span class="glyph"><img src="./assets/crescent-light.png" alt=""></span><span><strong>Spontaneity</strong><span class="desc">Let words arise in the moment; don't pre-plan your share.</span></span></li>
+      <li><span class="glyph"><img src="./assets/ankh-light.png" alt=""></span><span><strong>Brevity (Eloquence)</strong><span class="desc">Speak with potency, honor the energy of the whole, trust when your share feels complete.</span></span></li>
+    </ol>
+    <div data-for="group">
+      <p class="cue">Your carve-out, the way you say it</p>
+      <p class="say">"I remove myself from that. Anything I share about me, if you think it could help a friend, a loved one, a stranger on the subway, feel free to share it. I live all of those parts of my life out loud."</p>
+    </div>
+    <div data-for="one">
+      <p class="why">One-on-one the five principles shrink to what this one person needs to feel safe. You only need three.</p>
+      <ul class="check">
+        <li><input type="checkbox" id="c1"><label for="c1"><b>Confidentiality.</b><span class="s">"Everything you say here stays between us."</span></label></li>
+        <li><input type="checkbox" id="c2"><label for="c2"><b>Sovereignty.</b><span class="s">"Whatever comes through, take what feels alive and resonant. Leave the rest. You're the authority on you."</span></label></li>
+        <li><input type="checkbox" id="c3"><label for="c3"><b>Top of heart.</b><span class="s">"Instead of top of mind, what's top of heart? What are you feeling your way through? What feels like it needs to move?"</span></label></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 4 · BODY SCAN -->
+<section class="stage" id="scan" data-title="Body scan" data-phase="open">
+  <div class="stage-head"><span class="num"><span></span></span><img src="./assets/water-light.png" alt="">
+    <div class="stage-title"><h3>The body scan</h3><span class="meta">Crown to feet, then the breath · 3 to 4 min · slow</span></div>
+    <button class="done-btn" type="button">Done</button></div>
+  <div class="stage-body">
+    <p class="why">Your words, mostly from the October 14 portal, with lines from September 23 and August 12. Every point is a stop: say it, then let a full breath pass before the next. The dashed lines are mine, added so the scan touches the face and the throat on the way down.</p>
+
+    <span class="point">Arrive</span>
+    <p class="say">"If we have this available to us, go ahead and close our eyes. If you're driving, keep them open, you're still with us."</p>
+    <p class="say">"Just start to bring our awareness into our bodies, feeling where we're at. What are you arriving with?"</p>
+    <p class="say">"Not changing anything yet. Are we breathing a little shallow? Is our heart beating a little fast? Feel your bottom supported by the chair, your feet on the ground."</p>
+    <div class="beat"><span>pause</span></div>
+
+    <span class="point">Crown</span>
+    <p class="say">"Doing a slow and steady scan from the top of your head down into your bodies, making any movements that feel necessary and alive."</p>
+    <div class="sug"><p class="say">"Start right at the crown. Just notice what's there."</p></div>
+    <div class="beat"><span>pause</span></div>
+
+    <div class="sug">
+      <span class="point">Face and throat</span>
+      <p class="say">"Down across the forehead, behind the eyes. Let the jaw soften."</p>
+      <p class="say">"Into the throat. Anything you've been holding back from saying, just notice it's there."</p>
+    </div>
+    <div class="beat"><span>pause</span></div>
+
+    <span class="point">Neck and shoulders</span>
+    <p class="say">"If you want to roll your neck a little bit, shrug your shoulders up and down, just move however you feel called to move. If stillness is what's required, that's fine as well."</p>
+    <div class="beat"><span>pause</span></div>
+
+    <span class="point">Chest and heart</span>
+    <p class="say">"Continuing to scan down past the neck to the shoulders and the chest, finding that breath inside the chest."</p>
+    <div class="beat"><span>pause</span></div>
+
+    <span class="point">Solar plexus</span>
+    <p class="say">"As you continue down to the solar, feeling what's alive there and present."</p>
+    <div class="beat"><span>pause</span></div>
+
+    <span class="point">Sacral</span>
+    <p class="say">"As we make our way into the sacral and that cradle of the hips, that cradle of emotion and life and beauty."</p>
+    <div class="beat"><span>pause</span></div>
+
+    <span class="point">Root, legs and feet</span>
+    <p class="say">"Just dropping down into that root, as we now begin to be in awareness of our legs, our knees, our calves, our feet. Just feeling that energy really grounding."</p>
+    <div class="beat"><span>pause</span></div>
+
+    <span class="point">Where is the energy?</span>
+    <p class="say">"Where are you holding some tension, some tightness? Acknowledging it. Just paying attention to where that energy is sitting, asking for a little bit of attention."</p>
+
+    <span class="point">Sovereignty</span>
+    <p class="say" data-for="group">"Knowing that you are all sovereign beings, you can take what feels alive and resonant. You get to leave what does not resonate with you."</p>
+    <p class="say" data-for="one">"Knowing that you are a sovereign being, you get to take what feels alive and resonant. You get to leave what does not resonate with you."</p>
+
+    <span class="point">Into the heart</span>
+    <p class="say" data-for="group">"And just begin to get into this heart space, connecting with yourselves, connecting with this group of very, very powerful people."</p>
+    <p class="say" data-for="one">"And just begin to get into this heart space, connecting with yourself."</p>
+
+    <span class="point">Now the breath</span>
+    <p class="breath">"Bring our attention into the breath, with a big breath in through the nose."</p>
+    <p class="breath">"And when you exhale, like you're pushing through a straw. Long and slow."</p>
+    <p class="say">"Continuing to breathe at your own pace. Big inhales, filling those lungs with that source energy of God surrounding that heart. And on that exhale, feeling those shoulders dip, feeling that heart come into coherence."</p>
+    <p class="cue">Three breaths together, then straight into the prayer</p>
+  </div>
+</section>
+
+<!-- 5 · CHRIST ENERGY PRAYER -->
+<section class="stage gold-tone" id="prayer" data-title="Christ Energy Prayer" data-phase="open">
+  <div class="stage-head"><span class="num"><span></span></span><img src="./assets/sun-light.png" alt="">
+    <div class="stage-title"><h3>The Christ Energy Prayer</h3><span class="meta">Word for word · eyes stay closed</span></div>
+    <button class="done-btn" type="button">Done</button></div>
+  <div class="stage-body">
+    <p class="cue">The lead-in</p>
+    <p class="say">"And I will speak this prayer as you continue to breathe at your own pace, to cleanse our mutual spaces as we get ready to open up the channel."</p>
+    <div class="prayer">
+      <p>Dear Mother/Father God,<br>I ask to be cleared and cleansed in the Gold Radiant Light,<br>in the Crystal Red Energy of the Earth Mother,<br>and in the Rose Magnificat.</p>
+      <p>I seek communion and the grounding of that communion,<br>and the alignment of all of the selves throughout the universes.<br>I open myself to those beings of Light who would work with me<br>for the co-creation of Heaven on Earth.</p>
+      <p>In the name of Jesus the Christ, and my own Christed consciousness,<br>I command any and all negativity to be removed from here,<br>to be encapsulated in its own light,<br>surrounded by the ultraviolet light,<br>and returned to its source of emanation,<br>never again to re-establish here, in me, or in anyone.</p>
+      <p>I ask to be filled with the White Light of the Christ,<br>the green healing light of compassion,<br>and the purple transmuting light.<br>I ask that this room be filled and surrounded with light<br>and the six-pointed star of Golden Light.<br>For this and all of my many blessings, I give thanks.</p>
+      <p>I seek to be used as a channel of light, love, and information<br>within Divine Will and for the highest good only.<br>I accept those beings of Light who are guides and teachers,<br>those who would work with me and through me,<br>and I accept only those beings who walk and work within the Light.</p>
+      <p class="amen">Amen · Aho · Aṣẹ</p>
+      <p class="credit">The Christ Energy Prayer by Carol Channell-Cox, in your spoken version. The close, Amen, Aho, Aṣẹ, is yours.</p>
+    </div>
+    <p class="cue">Coming out</p>
+    <p class="say">"Slowly blinking your eyes back open. It's always so powerful to come in and pray and clean the space with this many beautiful souls. All right, we are back. The channel is open."</p>
+  </div>
+</section>
+
+<!-- 6 · ENGAGEMENT (group) -->
+<section class="stage" id="engage" data-title="How we engage" data-phase="open" data-for="group">
+  <div class="stage-head"><span class="num"><span></span></span><img src="./assets/braid-light.png" alt="">
+    <div class="stage-title"><h3>How we engage</h3><span class="meta">The acknowledgements · open the ones you need</span></div>
+    <button class="done-btn" type="button">Done</button></div>
+  <div class="stage-body">
+    <div class="ack-all"><button type="button" data-ack="open">Open all</button><button type="button" data-ack="close">Close all</button></div>
+
+    <details class="ack"><summary>The raised hand</summary><div>
+      <p class="say">"Anybody who has a question, just use the raise hand on Zoom. It keeps everyone in order so I can track who's going, and I'll make sure I get to see everybody."</p>
+      <p class="why">On a phone it's under Reactions. If someone can't find it, a message in the chat holds their place just as well.</p></div></details>
+
+    <details class="ack"><summary>Top of heart, not top of mind</summary><div>
+      <p class="say">"Instead of top of mind, I say top of heart. What are you feeling your way through? What feels like it needs to move? And if the mind wants to jump in on that, we allow for that too."</p></div></details>
+
+    <details class="ack"><summary>The first-timers and the quiet ones</summary><div>
+      <p class="say">"If it's your first time and you don't want to ask a question, that's completely fine. As someone else asks, you'll find yourself going, oh shit, that's me too. It branches out into this really beautiful flow."</p></div></details>
+
+    <details class="ack"><summary>The on-time crew and the late arrivals</summary><div>
+      <p class="say">"I always appreciate those of you who are the on-time delivery service. People will keep funneling in, and that's alright, come on in."</p></div></details>
+
+    <details class="ack"><summary>The chat</summary><div>
+      <p class="say">"The chat is open the whole time. If something lands while someone else is sharing, drop it in there. I'll read some of it out loud."</p></div></details>
+
+    <details class="ack"><summary>The clock</summary><div>
+      <p class="say">"We're going to stay as tight to ninety minutes as we can. I have a tendency to go on and on because I love doing this so much, so I'll stop taking questions around an hour fifteen. That lets me get through everyone."</p>
+      <div class="sug"><p class="say">"And we'll close together at ten to the hour, so nobody leaves mid-sentence."</p></div></div></details>
+
+    <details class="ack"><summary>The recording</summary><div>
+      <p class="say">"This is being recorded. Even the fuck-ups are profound."</p>
+      <div class="sug"><p class="say">"If you'd rather not be in the recording, keep your camera off and let me know in the chat. That's all it takes."</p>
+        <p class="why">The open has promised consent before, and the close never came back to ask. One sentence here covers it.</p></div></div></details>
+
+    <details class="ack"><summary>Is your share complete?</summary><div>
+      <p class="say">"Do you feel complete with that, or is there anything else you want to add?"</p>
+      <p class="why">Before you answer anyone. It's the brevity principle, held gently.</p></div></details>
+
+    <details class="ack"><summary>The collective breath</summary><div>
+      <p class="say">"I just want to take a collective breath for all of the energy you put out there. Everybody, a deep breath in through the nose. And release."</p>
+      <p class="why">After any heavy share. Truth, then breath, then the laugh. Never the laugh instead of the breath.</p></div></details>
+
+    <details class="ack"><summary>The first share</summary><div>
+      <p class="say">"We're open, we're ready. Is everybody shy? Alright, you're up first. Hit me with it."</p></div></details>
+  </div>
+</section>
+
+<!-- 7 · WHILE IN SESSION -->
+<section class="stage" id="session" data-title="While in session" data-phase="open">
+  <div class="stage-head"><span class="num"><span></span></span><img src="./assets/horus-light.png" alt="">
+    <div class="stage-title"><h3>While in session</h3><span class="meta">Hit these and forget them</span></div>
+    <button class="done-btn" type="button">Done</button></div>
+  <div class="stage-body">
+    <ul class="check">
+      <li><input type="checkbox" id="s1"><label for="s1"><b>Speaker view.</b></label></li>
+      <li><input type="checkbox" id="s2"><label for="s2"><b>Lavalier on me,</b> or close to me.<span class="s">So the sound is really good.</span></label></li>
+      <li><input type="checkbox" id="s3"><label for="s3"><b>Recording on,</b> started while I'm in speaker view.</label></li>
+      <li><input type="checkbox" id="s4"><label for="s4"><b>Look into the camera.</b><span class="s">The lens, not the faces. That's where their eyes are.</span></label></li>
+      <li><input type="checkbox" id="s5"><label for="s5"><b>Stay in frame</b> as much as possible.</label></li>
+      <li class="sugli" data-for="one"><input type="checkbox" id="s6"><label for="s6"><b>Wave is in the call.</b><span class="tag">suggested</span><span class="s">It has missed a call before. A ten-second glance saves rebuilding the transcript later.</span></label></li>
+      <li class="sugli" data-for="group"><input type="checkbox" id="s7"><label for="s7"><b>A timer set for ten to the hour.</b><span class="tag">suggested</span><span class="s">When it goes, the next hand waits for next call. The close is protected like the prayer.</span></label></li>
+      <li class="sugli" data-for="one"><input type="checkbox" id="s8"><label for="s8"><b>A timer set for ten minutes before the end.</b><span class="tag">suggested</span><span class="s">Room for the close without rushing them.</span></label></li>
+      <li class="sugli"><input type="checkbox" id="s9"><label for="s9"><b>Phone on Do Not Disturb, water within reach.</b><span class="tag">suggested</span></label></li>
+    </ul>
+  </div>
+</section>
+
+<!-- =================================================================== -->
+<div class="phase-head" id="closing"><p>Part two</p><h2>Closing the portal</h2></div>
+
+<!-- 8 · LAND -->
+<section class="stage close-tone" id="land" data-title="Wind down" data-phase="close">
+  <div class="stage-head"><span class="num"><span></span></span><img src="./assets/scarab-light.png" alt="">
+    <div class="stage-title"><h3>Wind down and land</h3><span class="meta">About 1 min · the scan in reverse, feet first</span></div>
+    <button class="done-btn" type="button">Done</button></div>
+  <div class="stage-body">
+    <p class="say" data-for="group">"Alright, as we start to wind down, let's take a moment to just go internally, really quickly."</p>
+    <p class="say" data-for="one">"Before we close, let's take a moment together to just go inward, really quickly."</p>
+    <p class="say">"Close your eyes, if that's available to you."</p>
+    <p class="breath">"Let's do one last breath. In through the nose. Out through the mouth."</p>
+    <div class="beat"><span>pause</span></div>
+    <p class="say">"Feeling your feet on the floor. Grounded. Coming back into present time and reality."</p>
+    <div class="sug"><p class="say">"Your seat in the chair. And when you're ready, open your eyes and let them find one thing in the room you're sitting in."</p>
+      <p class="why">Letting the eyes find the real room brings the body back before anyone stands up and drives.</p></div>
+    <p class="why" data-for="one">One-on-one, keep your own eyes open and watch it land on their face. If they're still wide open, take a second breath together.</p>
+  </div>
+</section>
+
+<!-- 9 · HARVEST -->
+<section class="stage close-tone" id="harvest" data-title="One word" data-title-one="Their one thing" data-phase="close">
+  <div class="stage-head"><span class="num"><span></span></span><img src="./assets/ibis-light.png" alt="">
+    <div class="stage-title"><h3 data-for="group">One word in the chat</h3><h3 data-for="one">Their one thing, out loud</h3><span class="meta">About 1 min</span></div>
+    <button class="done-btn" type="button">Done</button></div>
+  <div class="stage-body">
+    <div data-for="group">
+      <p class="say">"As you're coming back into the space, think of one word you'd like to share with everybody in the chat. What are you taking with you? What are you leaving with? What do you energetically feel excited about? Drop it in the chat."</p>
+      <div class="chat"><code>One word: what are you taking with you from today? Drop it here.</code><button type="button">Copy</button></div>
+      <div class="sug"><p class="say">Read five of them out loud.</p><p class="why">It gives the quiet ones a voice without a hand, and it tells you what actually landed.</p></div>
+    </div>
+    <div data-for="one">
+      <p class="say">"What's the one thing you're taking with you from today? What are you leaving with?"</p>
+      <p class="why">Let them say it. Their sentence becomes the spine of the recap, so the email starts from what landed for them.</p>
+      <div class="sug"><p class="say">"The session is the map. The practice is the territory. Here's your one for this week."</p>
+        <p class="why">Name one integration practice now, so the recap confirms it instead of introducing it.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 · THE DOOR -->
+<section class="stage close-tone" id="door" data-title="The door" data-phase="close">
+  <div class="stage-head"><span class="num"><span></span></span><img src="./assets/braid-light.png" alt="">
+    <div class="stage-title"><h3>The open door</h3><span class="meta" data-for="group">About 1 min · before the prayer, so the prayer is the last thing they hear</span><span class="meta" data-for="one">Said once, lightly · the recap carries it in writing</span></div>
+    <button class="done-btn" type="button">Done</button></div>
+  <div class="stage-body">
+    <div data-for="group">
+      <p class="say">"I genuinely have so much fun that I forget to say it: if you want to go deeper with me, you can absolutely work with me. I'm going to put my website in the chat."</p>
+      <div class="chat"><code>Want to go deeper? Work with me one-on-one: https://www.cahager.com</code><button type="button">Copy</button></div>
+      <p class="say">"And my newest story is up on the site, Fill Your Own Cup. Every story lives on Stories Sashimi."</p>
+      <div class="chat"><code>My newest story, Fill Your Own Cup: https://www.cahager.com/fill-your-own-cup/
+Every story, newest first: https://www.cahager.com/stories.html</code><button type="button">Copy</button></div>
+      <div class="sug">
+        <p class="say">"The prayer we opened with today, and every prayer I say, is in the Prayer Room on the site. Take them, use them, pray them with your people."</p>
+        <div class="chat"><code>The Christ Energy Prayer we opened with: https://www.cahager.com/prayers/christ-energy-prayer/
+Every prayer: https://www.cahager.com/prayers</code><button type="button">Copy</button></div>
+        <p class="why">This is the resource-center piece: the prayers you say on the call, findable afterward by anyone in the room.</p>
+      </div>
+      <p class="say">"We meet the 2nd and 4th Wednesday of every month. I'd love to see you on the next one."</p>
+    </div>
+    <div data-for="one">
+      <p class="say">"You'll get a recap from me with today's practices written out. And if you want to keep walking with this, you know where to find me."</p>
+      <div class="sug"><p class="say">"Do you want to set the next one now, while it's fresh?"</p>
+        <p class="why">Only if it's alive for them. Booking in the room saves a follow-up that can sit for days.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 · RELEASE PRAYER -->
+<section class="stage gold-tone" id="release" data-title="Release prayer" data-phase="close">
+  <div class="stage-head"><span class="num"><span></span></span><img src="./assets/crescent-light.png" alt="">
+    <div class="stage-title"><h3>The release prayer</h3><span class="meta">Your words · eyes closed again</span></div>
+    <button class="done-btn" type="button">Done</button></div>
+  <div class="stage-body">
+    <div class="prayer">
+      <p>Dear Mother, Father God,</p>
+      <p>Thank you for <span data-for="group">the circle</span><span class="swap" data-for="one">this time together</span><br>and for the light that has moved through it.</p>
+      <p>Thank you to all the beings of light, guides, teachers,<br>masters, ascended masters, angels, and archangels<br>for your presence here today:<br>we thank you and release you with love.</p>
+      <p>Anything that has been set down here,<br>let it be encapsulated by its own light,<br>surrounded by the ultraviolet light,<br>and returned to its source of emanation,<br>never again to be reestablished here<br>in me or in anyone.<br>For these blessings we give thanks.</p>
+      <p>Let each of us carry our own light<br>on our journeys forward<br>as we seal this space and every soul in it<br>in the six-pointed star of golden light.<br>For this and all our many blessings we give thanks.</p>
+      <p class="amen">Amen · Aho · Aṣẹ</p>
+      <p class="credit" data-for="group">Christopher Hager, 2026. Built on the Christ Energy Prayer's own images, turned around to close.</p>
+      <p class="credit" data-for="one">Christopher Hager, 2026. The one change for a one-on-one is in teal: "the circle" becomes "this time together". Yours to keep or not.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 12 · SEAL -->
+<section class="stage close-tone" id="seal" data-title="Seal" data-phase="close">
+  <div class="stage-head"><span class="num"><span></span></span><img src="./assets/ankh-light.png" alt="">
+    <div class="stage-title"><h3>Silence, then end together</h3><span class="meta">Ten seconds</span></div>
+    <button class="done-btn" type="button">Done</button></div>
+  <div class="stage-body">
+    <div class="sug">
+      <p class="say">After Aṣẹ, hold ten seconds of silence.</p>
+      <p class="say" data-for="group">"I love y'all. Have a beautiful rest of your week." Then <b>End meeting for all</b>, so the room leaves together instead of trickling out one tile at a time.</p>
+      <p class="say" data-for="one">"Thank you for trusting me with this." Then let them leave first.</p>
+      <p class="why">The Circle Way closes every circle this way: a few seconds of silence before it is released.</p>
+    </div>
+  </div>
+</section>
+
+<!-- AFTER -->
+<section class="stage collapsed" id="after" data-title="After the call" data-phase="close">
+  <div class="stage-head"><span class="num"><span></span></span><img src="./assets/water-light.png" alt="">
+    <div class="stage-title"><h3>After the call, for you</h3><span class="meta">Two minutes · before the next thing</span></div>
+    <button class="done-btn" type="button">Done</button></div>
+  <div class="stage-body">
+    <div class="sug">
+      <ul class="check">
+        <li><input type="checkbox" id="a1"><label for="a1"><b>Clear the field.</b><span class="s">The Protection Prayer or the Ultraviolet Flame, both already in your corpus. Cords, threads, agreements and vows, sent to the light.</span></label></li>
+        <li><input type="checkbox" id="a2"><label for="a2"><b>Wash your hands to the elbows.</b><span class="s">From your tourmaline practice. Water is the oldest end-of-session marker there is.</span></label></li>
+        <li><input type="checkbox" id="a3"><label for="a3"><b>Feet in the dirt.</b><span class="s">Ass in the grass. Two minutes on the ground.</span></label></li>
+      </ul>
+      <p class="why" data-for="one">This matters more one-on-one. In a group the energy spreads across the room. With one person it runs between two, and that's where cords form.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <img src="./assets/logo-inline-light.png" alt="Christopher Hager">
+  The Portal, Open to Close · a walkthrough · v1 · November 19, 2026
+</footer>
+
+<script>
+(function(){
+  var root=document.documentElement, body=document.body;
+  var K={size:'portal-size',mode:'portal-mode',done:'portal-done',open:'portal-open',trim:'wizard-intro-trim'};
+  function get(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}}
+  function set(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+
+  /* text size */
+  var size=parseFloat(get(K.size,''))||null;
+  function applySize(){if(size)root.style.setProperty('--size',size+'px')}
+  function cur(){return size||parseFloat(getComputedStyle(root).fontSize)}
+  applySize();
+  document.getElementById('bigger').onclick=function(){size=Math.min(cur()+2,40);set(K.size,size);applySize()};
+  document.getElementById('smaller').onclick=function(){size=Math.max(cur()-2,14);set(K.size,size);applySize()};
+
+  /* stages: done + collapse, remembered so a refresh mid-call loses nothing */
+  var stages=[].slice.call(document.querySelectorAll('.stage'));
+  var done=JSON.parse(get(K.done,'{}')), opened=JSON.parse(get(K.open,'{}'));
+  function save(){set(K.done,JSON.stringify(done));set(K.open,JSON.stringify(opened))}
+  stages.forEach(function(s){
+    var id=s.id;
+    if(done[id]){s.classList.add('done','collapsed')}
+    if(id in opened){s.classList.toggle('collapsed',!opened[id])}
+    s.querySelector('.stage-head').addEventListener('click',function(e){
+      if(e.target.closest('.done-btn'))return;
+      var c=s.classList.toggle('collapsed');opened[id]=!c;save();
+    });
+    s.querySelector('.done-btn').addEventListener('click',function(){
+      var d=!s.classList.contains('done');
+      s.classList.toggle('done',d);s.classList.toggle('collapsed',d);
+      done[id]=d;opened[id]=!d;save();buildMap();
+      if(d){var n=nextVisible(s);if(n){n.classList.remove('collapsed');opened[n.id]=true;save();n.scrollIntoView({behavior:'smooth',block:'start'})}}
+    });
+  });
+  function visible(s){return s.offsetParent!==null||getComputedStyle(s).display!=='none'}
+  function nextVisible(s){var i=stages.indexOf(s);for(var j=i+1;j<stages.length;j++){if(visible(stages[j])&&!stages[j].classList.contains('done'))return stages[j]}return null}
+
+  /* mode filter + numbering + map */
+  var mode=get(K.mode,'group');
+  function number(){var n=0;stages.forEach(function(s){if(visible(s)){n++;s.querySelector('.num span').textContent=n}})}
+  function buildMap(){
+    var ol=document.getElementById('map'),html='',phase='';
+    stages.forEach(function(s){
+      if(!visible(s))return;
+      if(s.dataset.phase!==phase){phase=s.dataset.phase;html+='<li class="phase">'+(phase==='open'?'Opening':'Closing')+'</li>'}
+      html+='<li class="'+(s.classList.contains('done')?'done':'')+'"><a href="#'+s.id+'"><b>'+s.querySelector('.num span').textContent+'</b>'+((mode==='one'&&s.dataset.titleOne)||s.dataset.title)+'</a></li>';
+    });
+    ol.innerHTML=html;
+  }
+  function setMode(m){
+    mode=m;set(K.mode,m);
+    body.classList.toggle('mode-group',m==='group');body.classList.toggle('mode-one',m==='one');
+    [].forEach.call(document.querySelectorAll('.seg button'),function(b){b.setAttribute('aria-pressed',b.dataset.mode===m?'true':'false')});
+    number();buildMap();
+  }
+  [].forEach.call(document.querySelectorAll('.seg button'),function(b){b.onclick=function(){setMode(b.dataset.mode)}});
+  document.getElementById('map').addEventListener('click',function(e){
+    var a=e.target.closest('a');if(!a)return;var s=document.querySelector(a.getAttribute('href'));
+    if(s){s.classList.remove('collapsed');opened[s.id]=true;save()}
+  });
+  setMode(mode);
+
+  /* new call: unfold everything, clear every tick */
+  document.getElementById('reset').onclick=function(){
+    done={};opened={};save();
+    stages.forEach(function(s){s.classList.remove('done');s.classList.toggle('collapsed',s.id==='after')});
+    [].forEach.call(document.querySelectorAll('ul.check input'),function(i){i.checked=false});
+    buildMap();window.scrollTo({top:0,behavior:'smooth'});
+  };
+
+  /* wizard cuts, shared with the Wizard Intro page's own setting */
+  var t=document.getElementById('trim');
+  function setTrim(on){body.classList.toggle('trim',on);t.setAttribute('aria-pressed',on?'true':'false');t.textContent=on?'Show cuts':'Hide cuts'}
+  setTrim(get(K.trim,'0')==='1');
+  t.onclick=function(){var on=!body.classList.contains('trim');set(K.trim,on?'1':'0');setTrim(on)};
+
+  /* acknowledgements: open or close all */
+  [].forEach.call(document.querySelectorAll('[data-ack]'),function(b){b.onclick=function(){
+    var o=b.dataset.ack==='open';[].forEach.call(document.querySelectorAll('details.ack'),function(d){d.open=o});
+  }});
+
+  /* copy to the Zoom chat */
+  [].forEach.call(document.querySelectorAll('.chat button'),function(b){b.onclick=function(){
+    var txt=b.previousElementSibling.textContent;
+    function ok(){b.textContent='Copied';b.classList.add('ok');setTimeout(function(){b.textContent='Copy';b.classList.remove('ok')},1600)}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(ok,fallback)}else{fallback()}
+    function fallback(){var a=document.createElement('textarea');a.value=txt;document.body.appendChild(a);a.select();try{document.execCommand('copy');ok()}catch(e){}a.remove()}
+  }});
+})();
+</script>
+</body>
+</html>
