@@ -128,6 +128,16 @@ ul.check .s{display:block;font-size:.72rem;color:var(--soft)}
 ul.check li.sugli{border-left:2px dashed rgba(231,162,193,.5);padding-left:.6rem}
 ul.check li.sugli .tag{font-family:var(--head);font-size:.36rem;letter-spacing:.2em;text-transform:uppercase;color:var(--wine);margin-left:.4em}
 
+/* arrival zingers: one box each, tick to strike it out */
+.zings{display:flex;flex-direction:column;gap:.45rem;margin:.35rem 0 .9rem}
+.zing{display:flex;gap:.75rem;align-items:flex-start;padding:.6rem .8rem;border-radius:12px;border:1px solid var(--faint);background:rgba(0,0,0,.2);cursor:pointer}
+.zing:nth-child(even){background:rgba(217,174,94,.08);border-color:rgba(217,174,94,.24)}
+.zing input{appearance:none;-webkit-appearance:none;flex:0 0 1.05rem;height:1.05rem;margin-top:.2rem;border:1.5px solid var(--gold);border-radius:4px;cursor:pointer;position:relative}
+.zing input:checked{background:var(--gold)}
+.zing input:checked::after{content:"\2713";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--crown);font-size:.7rem;font-weight:700}
+.zing span{font-size:.95rem;line-height:1.45}
+.zing input:checked + span{text-decoration:line-through;text-decoration-color:var(--gold);opacity:.42}
+
 /* expandable acknowledgements */
 details.ack{border-top:1px solid var(--faint)}
 details.ack:first-of-type{border-top:none}
@@ -230,28 +240,36 @@ footer img{width:150px;opacity:.8;display:block;margin:0 auto .8rem}
     <button class="done-btn" type="button">Done</button></div>
   <div class="stage-body">
     <div data-for="group">
-      <p class="why">Pick one or two as the tiles fill. Loving, never mean: the roast is the welcome.</p>
+      <p class="why">Pick one or two as the tiles fill. Tick a box and it strikes through, so you know what you've used. Loving, never mean: the roast is the welcome.</p>
 
       <span class="point">Early · the teacher's pets</span>
-      <p class="say">"Oh, look at the early birds. The teacher's pets. Somebody brought an apple, I can feel it through the screen."</p>
-      <p class="say">"If you got here early, the guides already gave you a gold star. It's on your third eye. Don't touch it, it's still drying."</p>
-      <p class="say">"You're the people who get to the airport three hours early for a domestic flight. I love you. I'm also a little scared of you."</p>
-      <p class="say">"Ram Dass said be here now. You heard 'be here ten minutes ago.' Overachievers. Gorgeous, gorgeous overachievers."</p>
-      <p class="say">"Early crew, you get first pick of the good energy. Front-row seats, in a Zoom that has no front row."</p>
+      <div class="zings">
+        <label class="zing"><input type="checkbox"><span>"Oh, look at the early birds. The teacher's pets. Somebody brought an apple, I can feel it through the screen."</span></label>
+        <label class="zing"><input type="checkbox"><span>"If you got here early, the guides already gave you a gold star. It's on your third eye. Don't touch it, it's still drying."</span></label>
+        <label class="zing"><input type="checkbox"><span>"You're the people who get to the airport three hours early for a domestic flight. I love you. I'm also a little scared of you."</span></label>
+        <label class="zing"><input type="checkbox"><span>"Ram Dass said be here now. You heard 'be here ten minutes ago.' Overachievers. Gorgeous, gorgeous overachievers."</span></label>
+        <label class="zing"><input type="checkbox"><span>"Early crew, you get first pick of the good energy. Front-row seats, in a Zoom that has no front row."</span></label>
+      </div>
+
 
       <span class="point">Right on time · too cool for school</span>
-      <p class="say">"Right on time. Too cool for school. Sunglasses on indoors, sliding in like the soundtrack started just for you."</p>
-      <p class="say">"A wizard is never late, nor is he early. He arrives precisely when he means to. Look at all you little Gandalfs."</p>
-      <p class="say">"Not early, not late. Perfectly balanced, as all things should be. Thanos is proud of you. Please don't snap anything."</p>
-      <p class="say">"You walked in right as the playlist got good. I see you. So cool. Way too cool for this school."</p>
-      <p class="say">"On the dot. The Middle Way. The Buddha is nodding at you right now, very calmly, from his lotus."</p>
+      <div class="zings">
+        <label class="zing"><input type="checkbox"><span>"Right on time. Too cool for school. Sunglasses on indoors, sliding in like the soundtrack started just for you."</span></label>
+        <label class="zing"><input type="checkbox"><span>"A wizard is never late, nor is he early. He arrives precisely when he means to. Look at all you little Gandalfs."</span></label>
+        <label class="zing"><input type="checkbox"><span>"Not early, not late. Perfectly balanced, as all things should be. Thanos is proud of you. Please don't snap anything."</span></label>
+        <label class="zing"><input type="checkbox"><span>"You walked in right as the playlist got good. I see you. So cool. Way too cool for this school."</span></label>
+        <label class="zing"><input type="checkbox"><span>"On the dot. The Middle Way. The Buddha is nodding at you right now, very calmly, from his lotus."</span></label>
+      </div>
+
 
       <span class="point">Five minutes late · on spirit time</span>
-      <p class="say">"And here come the fashionably late. Come in, come in. The light waited for you. The light is very patient. I'm still working on it."</p>
-      <p class="say">"Five minutes late is right on time in Costa Rica. Pura vida. Down here, you're basically early."</p>
-      <p class="say">"If you're just sliding in, you missed nothing. Just me roasting the early people. They loved it. They brought apples."</p>
-      <p class="say">"Late crew, you're on spirit time. Spirit time doesn't use clocks. Zoom does, but we don't tell Zoom."</p>
-      <p class="say">"Ram Dass said we're all just walking each other home. Some of you stopped for a coffee on the way. Welcome home."</p>
+      <div class="zings">
+        <label class="zing"><input type="checkbox"><span>"And here come the fashionably late. Come in, come in. The light waited for you. The light is very patient. I'm still working on it."</span></label>
+        <label class="zing"><input type="checkbox"><span>"Five minutes late is right on time in Costa Rica. Pura vida. Down here, you're basically early."</span></label>
+        <label class="zing"><input type="checkbox"><span>"If you're just sliding in, you missed nothing. Just me roasting the early people. They loved it. They brought apples."</span></label>
+        <label class="zing"><input type="checkbox"><span>"Late crew, you're on spirit time. Spirit time doesn't use clocks. Zoom does, but we don't tell Zoom."</span></label>
+        <label class="zing"><input type="checkbox"><span>"Ram Dass said we're all just walking each other home. Some of you stopped for a coffee on the way. Welcome home."</span></label>
+      </div>
 
       <p class="cue">New faces in the room → the Wizard Intro · All regulars → skip it</p>
     </div>
@@ -614,8 +632,9 @@ Every prayer: https://www.cahager.com/prayers</code><button type="button">Copy</
     <div data-for="one">
       <p class="say">"You'll get a recap from me with today's practices written out."</p>
       <p class="say">"And I'm leaving the door open. If you want to keep the momentum going, I'd suggest booking your next session in the next ten days or so, depending on where you're at. The link will be in your recap."</p>
+      <p class="cue">Not in a container yet</p>
       <p class="say">"And if a longer container feels right for you, Sage, my practice manager, will reach out to talk it through. So there's nothing to figure out right now. Just let it land."</p>
-      <p class="why">Nothing gets scheduled on the call. The booking link rides in the recap, and a container conversation goes to Sage at the wrap.</p>
+      <p class="why">Already in a container: skip this line. After the wrap, SAGE asks you yes or no before Sage sends any invitation.</p>
     </div>
   </div>
 </section>
@@ -675,7 +694,7 @@ Every prayer: https://www.cahager.com/prayers</code><button type="button">Copy</
 
 <footer>
   <img src="./assets/logo-inline-light.png" alt="Christopher Hager">
-  The Portal, Open to Close · a walkthrough · v1.1 · November 19, 2026
+  The Portal, Open to Close · a walkthrough · v1.2 · November 19, 2026
 </footer>
 
 <script>
@@ -744,7 +763,7 @@ Every prayer: https://www.cahager.com/prayers</code><button type="button">Copy</
   document.getElementById('reset').onclick=function(){
     done={};opened={};save();
     stages.forEach(function(s){s.classList.remove('done');s.classList.toggle('collapsed',s.id==='after')});
-    [].forEach.call(document.querySelectorAll('ul.check input'),function(i){i.checked=false});
+    [].forEach.call(document.querySelectorAll('ul.check input, .zing input'),function(i){i.checked=false});
     buildMap();window.scrollTo({top:0,behavior:'smooth'});
   };
 
